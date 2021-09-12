@@ -1,6 +1,9 @@
 import React, { Component } from "react";
-import Field from "../common/Field";
+import FieldFormik from "../common/FieldFormik";
 import SectionHead from "../common/SectionHead";
+
+import { withFormik } from "formik";
+import * as Yup from "yup";
 
 const fields = {
   sections: [
@@ -10,21 +13,18 @@ const fields = {
         elementName: "input",
         type: "text",
         placeholder: "Your Name *",
-        validate: "required",
       },
       {
         name: "email",
         elementName: "input",
         type: "email",
         placeholder: "Your Email *",
-        validate: "required,email",
       },
       {
         name: "phone",
         elementName: "input",
         type: "tel",
         placeholder: "Your Phone *",
-        validate: "required",
       },
     ],
     [
@@ -33,34 +33,18 @@ const fields = {
         elementName: "textarea",
         type: "text",
         placeholder: "Your Message *",
-        validate: "required",
       },
     ],
   ],
 };
 
-class Contact extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      name: "",
-      email: "",
-      phone: "",
-      message: "",
-    };
-  }
-
-  submitForm = (e) => {
-    console.log(e);
-    alert("Your message has been Submitted. Thank you!");
-  };
-
+class ContactWithFormik extends Component {
   render() {
     return (
       <section className="page-section" id="contact">
         <div className="container">
           <SectionHead
-            heading="Contact Us"
+            heading="Contact Us Formik"
             subheading="Lorem ipsum dolor sit amet consectetur."
           />
           <form id="contactForm" data-sb-form-api-token="API_TOKEN">
@@ -70,13 +54,14 @@ class Contact extends Component {
                   <div className="col-md-6" key={sectionIndex}>
                     {section.map((field, index) => {
                       return (
-                        <Field
+                        <FieldFormik
                           key={index}
                           {...field}
-                          value={this.state[field.name]}
-                          onChange={(e) =>
-                            this.setState({ [field.name]: e.target.value })
-                          }
+                          value={this.props.values[field.name]}
+                          onChange={this.props.handleChange}
+                          onBlur={this.props.handleBlur}
+                          touched={this.props.touched[field.name]}
+                          errors={this.props.errors[field.name]}
                         />
                       );
                     })}
@@ -101,10 +86,10 @@ class Contact extends Component {
             </div>
             <div className="text-center">
               <button
-                className="btn btn-primary btn-xl text-uppercase disabled"
-                id="submitButton"
+                className="btn btn-primary btn-xl text-uppercase"
+                // id="submitButton"
                 type="submit"
-                onClick={this.submitForm}
+                onClick={this.props.handleSubmit}
               >
                 Send Message
               </button>
@@ -116,4 +101,47 @@ class Contact extends Component {
   }
 }
 
-export default Contact;
+export default withFormik({
+  mapPropsToValues: () => ({
+    name: "",
+    email: "",
+    phone: "",
+    message: "",
+  }),
+
+  /* Validation With Formik */
+  // validate: (values) => {
+  //   const errors = {};
+  //   // eslint-disable-next-line
+  //   Object.keys(values).map((value) => {
+  //     console.log(value);
+  //     if (!values[value]) {
+  //       errors[value] = "The " + value + " field is required";
+  //     }
+  //   });
+  //   return errors;
+  // },
+
+  /* Validation With Yup */
+  validationSchema: Yup.object().shape({
+    name: Yup.string().required("The name field is required"),
+    email: Yup.string().email("Email is not valid.").required(),
+    phone: Yup.string()
+      .min(10, "The phone number must be minimum 10 digits")
+      .max(15, "Your phone number is too long")
+      .required("The phone number is required"),
+    message: Yup.string()
+      .max(150, "Your message is too long, it must be specific")
+      .required("Message is required"),
+  }),
+
+  handleSubmit: (values, { setSubmitting }) => {
+    setTimeout(() => {
+      alert("The message has been submitted" + JSON.stringify(values, null, 2));
+      alert(
+        `The message has been submitted ${JSON.stringify(values, null, 2)}`
+      );
+      setSubmitting(false);
+    }, 1000);
+  },
+})(ContactWithFormik);

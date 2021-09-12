@@ -11,6 +11,8 @@ import Clients from "../common/Clients";
 import Contact from "./Contact";
 import Footer from "../common/Footer";
 
+import "../common/LayeredWave.css";
+
 class Home extends Component {
   render() {
     return (
@@ -26,9 +28,11 @@ class Home extends Component {
         <Services />
         <Portfolio />
         <Timeline />
+        <div className="spacer layer1"></div>
         <Team />
         <Clients />
         <Contact />
+        <div className="spacer layer2"></div>
         <Footer />
       </div>
     );

@@ -1,0 +1,29 @@
+section {
+  position: relative;
+}
+
+.curves {
+  position: absolute;
+  bottom: 0;
+  height: 180px;
+  width: 100%;
+  display: block;
+  z-index: 1;
+}
+.curves::before,
+.curves::after {
+  position: absolute;
+  content: "";
+  display: block;
+  width: 54.1%;
+  height: 100%;
+  border-radius: 100% 50%;
+}
+.curves::before {
+  background: #fff;
+  transform: translate(-4%, 40%);
+}
+.curves::after {
+  background: rgb(248, 249, 250);
+  transform: translate(85%, 60%);
+}

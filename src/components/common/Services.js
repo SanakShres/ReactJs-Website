@@ -1,5 +1,8 @@
 import React, { Component } from "react";
+import SectionHead from "./SectionHead";
 import SingleService from "./SingleService";
+
+import "./Curves.css";
 
 const services = [
   {
@@ -26,18 +29,17 @@ class Services extends Component {
     return (
       <section className="page-section" id="services">
         <div className="container">
-          <div className="text-center">
-            <h2 className="section-heading text-uppercase">Services</h2>
-            <h3 className="section-subheading text-muted">
-              Lorem ipsum dolor sit amet consectetur.
-            </h3>
-          </div>
+          <SectionHead
+            heading="Services"
+            subheading="Lorem ipsum dolor sit amet consectetur."
+          />
           <div className="row text-center">
             {services.map((service, index) => {
               return <SingleService key={index} {...service} />;
             })}
           </div>
         </div>
+        <div className="curves"></div>
       </section>
     );
   }

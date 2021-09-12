@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import TeamMember from "./TeamMember";
 
+import SectionHead from "./SectionHead";
+
 //images
 import img1 from "../assets/img/team/1.jpg";
 import img2 from "../assets/img/team/2.jpg";
@@ -17,12 +19,10 @@ class Team extends Component {
     return (
       <section className="page-section bg-light" id="team">
         <div className="container">
-          <div className="text-center">
-            <h2 className="section-heading text-uppercase">Our Amazing Team</h2>
-            <h3 className="section-subheading text-muted">
-              Lorem ipsum dolor sit amet consectetur.
-            </h3>
-          </div>
+          <SectionHead
+            heading="Our Amazing Team"
+            subheading="Lorem ipsum dolor sit amet consectetur."
+          />
           <div className="row">
             {members.map((member, index) => {
               return <TeamMember key={index} {...member} />;

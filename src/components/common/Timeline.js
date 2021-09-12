@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import TimelineList from "./TimelineList";
 
+import SectionHead from "./SectionHead";
+
 //images
 import img1 from "../assets/img/about/1.jpg";
 import img2 from "../assets/img/about/2.jpg";
@@ -43,12 +45,10 @@ class Timeline extends Component {
     return (
       <section className="page-section" id="about">
         <div className="container">
-          <div className="text-center">
-            <h2 className="section-heading text-uppercase">About</h2>
-            <h3 className="section-subheading text-muted">
-              Lorem ipsum dolor sit amet consectetur.
-            </h3>
-          </div>
+          <SectionHead
+            heading="About"
+            subheading="Lorem ipsum dolor sit amet consectetur."
+          />
           <ul className="timeline">
             {listItems.map((item, index) => {
               return <TimelineList key={index} {...item} />;
